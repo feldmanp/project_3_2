@@ -17,4 +17,8 @@ file_uploader = st.file_uploader('Upload crypto transaction file (.csv)')
 
 # Transform the upload file into dataframe 
 
-#df = pd.read_csv(file_uploader)
+df = pd.read_csv(file_uploader, infer_datetime_format= True)
+
+# Displaying the user input CSV
+
+st.table(df) 
