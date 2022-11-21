@@ -16,10 +16,6 @@ income = st.number_input("Input Salary")
 
 file_uploader = st.file_uploader('Upload crypto transaction file (.csv)')
 
-#Ask user to input the month until financial year (30 Jun each year)
-
-until_financial_year = st.number_input("Input the number of months from the beginning of your transcation date to the end of the financial year (30 Jun))")
-
 # Transform the upload file into dataframe 
 
 df = pd.read_csv(file_uploader,
@@ -27,9 +23,10 @@ index_col= "Date",
 infer_datetime_format=True, 
 parse_dates=True)
 
+df["Financial year"] = df.index.map(lambda d: d.year + 1 if d.month > 6 else d.year)
+
 # Displaying the user input CSV
 
-st.text("First ten rows of user input data")
 
 st.write(df[0:10])
 
@@ -39,15 +36,15 @@ st.write(df[0:10])
 
 table = pd.DataFrame()
 
-#Calculate for certain period of time (eg. Each financial year, each quater)
+#Group by financial year 
 
-table["Financial year"] = df.index.min() + DateOffset(months=until_financial_year)
+table["Financial year"] = df["Financial year"]
 
 
-#table["Salary Income"] = income
+table["Salary Income"] = income
 
 #table["Capital Gain/Loss from Crypto Investment"] = 
 
 #table["Capital Gain Income Tax (null if Capital Loss"] = 
 
-st.table(table)
+st.table(table) 
