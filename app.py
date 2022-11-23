@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 from pandas.tseries.offsets import DateOffset
 import daily_portfolio
+import eth_helper
 from ethereum import w3, generate_account, get_balance, send_transaction
 from web3 import Web3
 from datetime import datetime
@@ -97,6 +98,13 @@ st.markdown("First 10 transcations in your block chain")
 st.write(df[0:10])
 
 
+
+address = st.text_input("Input Account")
+if st.button('Upload Transactions'):
+    st.write(f'Transactions Uploaded from account: {address}') #displayed when the button is clicked
+    df2 = eth_helper.getTransactionsByAccount(address, w3)
+    st.write(df2[0:10])
+    
 #######################################
 
 
