@@ -26,16 +26,13 @@ income = st.number_input("Input Salary")
 
 #Chart displaying daily crypto portfolio return
 
-daily_portfolio_df = daily_portfolio.calculate_daily_portfolio("Resources/Transactions.csv")
-st.markdown("Daily Portfolio Return")
-st.bar_chart(daily_portfolio_df)
+
 
 #######################################
 
 # The Ethereum Account Address
 
 #account = generate_account(w3)
-
 
 #st.text("\n")
 #st.text("\n")
@@ -102,8 +99,10 @@ st.write(df[0:10])
 address = st.text_input("Input Account")
 if st.button('Upload Transactions'):
     st.write(f'Transactions Uploaded from account: {address}') #displayed when the button is clicked
-    df2 = eth_helper.getTransactionsByAccount(address, w3)
-    st.write(df2[0:10])
+    transactions_df = eth_helper.getTransactionsByAccount(address, w3)
+    daily_portfolio_df = daily_portfolio.calculate_daily_portfolio(transactions_df)
+    st.markdown("Daily Portfolio Return")
+    st.bar_chart(daily_portfolio_df)
     
 #######################################
 

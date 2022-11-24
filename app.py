@@ -24,25 +24,87 @@ income = st.number_input("Input Salary")
 
 ############################################################
 
+#Chart displaying daily crypto portfolio return
+
+
+
+#######################################
+
+# The Ethereum Account Address
+
+#account = generate_account(w3)
+
+#st.text("\n")
+#st.text("\n")
+#st.markdown("## Ethereum Account Address:")
+
+# Write the Ethereum account address to the Streamlit page
+#st.write(account.address)
+
+
+#######################################
+
+# Create empty lists for later dataframe construction
+time_1 = []
+transaction_hash_1 = []
+transaction_amount = []
+
+#st.text("\n")
+#st.text("\n")
+#st.markdown("## Ethereum Transactions")
+
+############################################################
+
+#Get the total amount of blocks 
+
+total_block_number = w3.eth.get_block_number()
+
+loop = list(range(1,total_block_number))
+
+for i in loop:
+    
+    #get transaction info from every transcation    
+    transaction_1 = w3.eth.get_block(block_identifier=i)
+    
+    # obtain the time of the transaction 
+    timestamp = transaction_1['timestamp']
+    dt_object = datetime.fromtimestamp(timestamp)
+    time_1.append(dt_object)
+    
+    #Transaction hash 
+    #trans_hash = transaction_1['hash']
+    #transaction_hash_1.append(trans_hash)
+    
+    # Obtain the transcation amount 
+    trans_amount = w3.eth.get_transaction_by_block(i,0)
+    amount = trans_amount['value']*0.000000000000000001 # in eth 
+    transaction_amount.append(amount)
+    
+transactios = w3.eth.get_block('latest')
+
+#######################################
+
+# Transform the upload file into dataframe 
+
+df = pd.DataFrame() 
+df['Date'] = time_1
+df['Amount in Eth'] = transaction_amount
+
+# Displaying first ten transactions
+st.markdown("First 10 transcations in your block chain")
+st.write(df[0:10])
+
 
 
 address = st.text_input("Input Account")
 if st.button('Upload Transactions'):
     st.write(f'Transactions Uploaded from account: {address}') #displayed when the button is clicked
-    df2 = eth_helper.getTransactionsByAccount(address, w3)
-    st.markdown("First Ten Transactions From Your Account:")
-    st.write(df2[0:10])
-
-
-
-################################################
-
-#Chart displaying daily crypto portfolio return
-
-daily_portfolio_df = daily_portfolio.calculate_daily_portfolio("Resources/Transactions.csv")
-st.markdown("Daily Portfolio Return")
-st.bar_chart(daily_portfolio_df)
-
+    transactions_df = eth_helper.getTransactionsByAccount(address, w3)
+    daily_portfolio_df = daily_portfolio.calculate_daily_portfolio(transactions_df)
+    st.markdown("Daily Portfolio Return")
+    st.bar_chart(daily_portfolio_df)
+    
+#######################################
 ##############################################
 
 
