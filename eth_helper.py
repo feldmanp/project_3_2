@@ -22,9 +22,3 @@ def getTransactionsByAccount(myaccount, w3):
 
                    
     return myaccount_transactions_df
-
-
-
-    #   if ( block is not None & len(block.transactions) > 0 ):
-
-    #                    new_row = pd.DataFrame({'timestamp':[dt_object], 'Currency':['ETH'], 'Amount':[-tran["value"]]}) 
