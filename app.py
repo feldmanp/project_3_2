@@ -22,7 +22,7 @@ st.title("Crypto Portfolio Dashboard and Personal Tax Calculation")
 
 income = st.number_input("Input Salary")
 
-################################################
+############################################################
 
 #Chart displaying daily crypto portfolio return
 
@@ -105,6 +105,7 @@ if st.button('Upload Transactions'):
     st.bar_chart(daily_portfolio_df)
     
 #######################################
+##############################################
 
 
 #st.write(df[0:10])
