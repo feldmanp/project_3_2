@@ -100,9 +100,11 @@ address = st.text_input("Input Account")
 if st.button('Upload Transactions'):
     st.write(f'Transactions Uploaded from account: {address}') #displayed when the button is clicked
     transactions_df = eth_helper.getTransactionsByAccount(address, w3)
+    st.write(transactions_df)
     daily_portfolio_df = daily_portfolio.calculate_daily_portfolio(transactions_df)
     st.markdown("Daily Portfolio Return")
     st.bar_chart(daily_portfolio_df)
+    
     
 #######################################
 ##############################################

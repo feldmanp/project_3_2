@@ -11,13 +11,14 @@ def getTransactionsByAccount(myaccount, w3):
             for tran in block.transactions:
                 timestamp = block['timestamp']
                 dt_object = datetime.fromtimestamp(timestamp)
+                str_date = dt_object.strftime('%Y-%m-%d')
                 #check if the transaction is money sent from my wallet
                 if myaccount == tran["from"]:
-                    new_row = pd.DataFrame({'timestamp':[dt_object], 'currency':['ETH'], 'amount':[-tran["value"]*0.000000000000000001]}) 
+                    new_row = pd.DataFrame({'timestamp':[str_date], 'currency':['ETH'], 'amount':[-tran["value"]*0.000000000000000001]}) 
                     myaccount_transactions_df = pd.concat([myaccount_transactions_df,new_row])
                 #check if the transaction is money sent from my wallet
                 elif myaccount == tran["to"]:
-                    new_row = pd.DataFrame({'timestamp':[dt_object], 'currency':['ETH'],'amount':[tran["value"]*0.000000000000000001]})
+                    new_row = pd.DataFrame({'timestamp':[str_date], 'currency':['ETH'],'amount':[tran["value"]*0.000000000000000001]})
                     myaccount_transactions_df = pd.concat([myaccount_transactions_df,new_row])
 
                    
