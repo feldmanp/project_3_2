@@ -37,8 +37,8 @@ def calculate_daily_portfolio(transactions_df):
     transactions_df["date"]=transactions_df["timestamp"].str[:10]
     
     #2. Generate all dates
-    start_date=transactions_df.iloc[0,1]
-    end_date=transactions_df.iloc[len(transactions_df)-1,1]
+    start_date=transactions_df.iloc[1,0]
+    end_date=transactions_df.iloc[len(transactions_df)-1,-1]
     portfolio_daily_view = pd.DataFrame({'date': pd.date_range(start_date, end_date), 'AUD':0})
     portfolio_daily_view['date']=portfolio_daily_view['date'].dt.strftime('%Y-%m-%d')
     portfolio_daily_view.set_index('date',inplace=True)

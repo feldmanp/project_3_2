@@ -7,6 +7,30 @@ import eth_helper
 from ethereum import w3, generate_account, get_balance, send_transaction
 from web3 import Web3
 from datetime import datetime
+import tax_events
+
+#Define inc_tax bracket calculations
+def inc_tax (total_y):
+    #Tax Brackets
+    bracket1=18200
+    bracket2=45000
+    bracket3=120000
+    bracket4=180000
+    rate1=0.19
+    rate2=0.325
+    rate3=0.37
+    rate4=0.45
+    '''calculates tax based on income enterd'''
+    if total_y<=bracket1:
+        return 0
+    elif total_y<=bracket2:
+        return (total_y-bracket1)*rate1
+    elif total_y<=bracket3:
+        return (total_y-bracket2)*rate2+(bracket2-bracket1)*rate1
+    elif total_y<=bracket4:
+        return (total_y-bracket3)*rate3+(bracket3-bracket2)*rate2+(bracket2-bracket1)*rate1
+    elif total_y>bracket4:
+        return (total_y-bracket4)*rate4+(bracket4-bracket3)*rate3+(bracket3-bracket2)*rate2+(bracket2-bracket1)*rate1
 
 
 #Get address and account via Ganache
@@ -22,7 +46,7 @@ st.title("Crypto Portfolio Dashboard and Personal Tax Calculation")
 
 income = st.number_input("Input Salary")
 
-################################################
+############################################################
 
 #Chart displaying daily crypto portfolio return
 
@@ -100,11 +124,31 @@ address = st.text_input("Input Account")
 if st.button('Upload Transactions'):
     st.write(f'Transactions Uploaded from account: {address}') #displayed when the button is clicked
     transactions_df = eth_helper.getTransactionsByAccount(address, w3)
+    st.write(transactions_df)
     daily_portfolio_df = daily_portfolio.calculate_daily_portfolio(transactions_df)
     st.markdown("Daily Portfolio Return")
     st.bar_chart(daily_portfolio_df)
-    
+    #Drawing tax events
+    st.write('Capital Gains Events for Financial Year')
+    capital_gains_df = tax_events.calculate_yearly_gains(transactions_df)
+    st.write(capital_gains_df)
+    #Calculating capital gains
+    capital_gain = capital_gains_df['net return'].sum()
+    #Total Taxable Income
+    total_y = income + capital_gain
+    #Calculations
+    st.write('Net Income: ')
+    st.write(total_y-inc_tax(total_y))
+    st.write(' ')
+    st.write('Tax Paid: ') 
+    st.write(inc_tax(total_y))
+    st.write(' ')
+    st.write('Effective Tax Rate: ')
+    st.write(inc_tax(total_y)/total_y)
+
+
 #######################################
+##############################################
 
 
 #st.write(df[0:10])
