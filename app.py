@@ -9,6 +9,7 @@ from web3 import Web3
 from datetime import datetime
 import tax_events
 
+################################################################
 #Define inc_tax bracket calculations
 def inc_tax (total_y):
     #Tax Brackets
@@ -32,6 +33,8 @@ def inc_tax (total_y):
     elif total_y>bracket4:
         return (total_y-bracket4)*rate4+(bracket4-bracket3)*rate3+(bracket3-bracket2)*rate2+(bracket2-bracket1)*rate1
 
+
+######################################################################
 
 #Get address and account via Ganache
 
@@ -128,12 +131,17 @@ if st.button('Upload Transactions'):
     daily_portfolio_df = daily_portfolio.calculate_daily_portfolio(transactions_df)
     st.markdown("Daily Portfolio Return")
     st.bar_chart(daily_portfolio_df)
+
+
+
+    #########################################################################
     #Drawing tax events
     st.write('Capital Gains Events for Financial Year')
-    capital_gains_df = tax_events.calculate_yearly_gains(transactions_df)
-    st.write(capital_gains_df)
+    capital_gain_df = tax_events.calculate_yearly_gains(transactions_df)
+    st.table(capital_gain_df)
+    st.table(transactions_df)
     #Calculating capital gains
-    capital_gain = capital_gains_df['net return'].sum()
+    capital_gain = capital_gain_df['net return'].sum()
     #Total Taxable Income
     total_y = income + capital_gain
     #Calculations
@@ -159,16 +167,24 @@ if st.button('Upload Transactions'):
 
 #table = pd.DataFrame()
 
-#Group by financial year 
+#total_y = income + capital_gain
 
-#table["Financial year"] = df["Financial year"]
+#table["Net Income:"] = (total_y-inc_tax(total_y))
 
 
-#table["Salary Income"] = income
+#table["Tax Paid:"] = inc_tax(total_y)
 
-#table["Capital Gain/Loss from Crypto Investment"] = 
+#table["Effective Tax Rate: "] = inc_tax(total_y)/total_y
 
 #table["Capital Gain Income Tax (null if Capital Loss"] = 
 
 #st.table(table) 
+
+########################################################################
+
+# display first 10 rows of tax_event transcations 
+
+st.subheader("First 10 rows of tax events transactions")
+
+st.table(capital_gain_df)
 
