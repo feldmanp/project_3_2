@@ -4,7 +4,7 @@ from datetime import datetime
 def getTransactionsByAccount(myaccount, w3):
     myaccount_transactions_df = pd.DataFrame(columns=['timestamp','currency','amount'])
     total_block_number = w3.eth.get_block_number()
-    loop_range = list(range(1,total_block_number))
+    loop_range = list(range(1,total_block_number+1))
     for i in loop_range:  
         block = w3.eth.get_block(block_identifier=i,full_transactions = True)
         if ( len(block.transactions) > 0 ):
