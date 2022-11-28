@@ -39,9 +39,27 @@ For more information about cryptocurrent investment taxation, please visit: http
 
 
 
-# Instructions 
+# Instructions and user story 
+<br>
 
-### 1. Run 'streamlit run app.py' in your terminal (IOS user) / command line (for Windows user), then copy the URL into your browser. 
+
+> ## “John has two income streams: he earns a $150k p.a. salary as a software engineer at Optiver, and earns income executing hundreds of ethereum trades each financial year. John wants to find a straightforward tool to find out his personal income tax based on Australian Taxation Regulations” 
+
+<br>
+
+### John's information:
+<br>
+
+Salary : **$ 150,000**
+
+Ethereum Account Address: **0x8c70a175F86FB25ae3ADBD5F26E043D119565EB1**
+
+
+<br>
+<br>
+
+
+## 1. Run **'streamlit run app.py'** in your terminal (IOS user) / command line (for Windows user), then copy the URL into your browser. 
 ![](./Resources/instruction_run_streamlit_in_terminal.png)
 
 ![](./Resources/instructions_streamlit_interface.png)
@@ -49,19 +67,17 @@ For more information about cryptocurrent investment taxation, please visit: http
 
 <br>
 
-### 2. Input your annual, pre-taxed salary on streamlit interface 
+## 2. Input annual, pre-taxed salary on streamlit interface 
 
 ![](./Resources/instruction_input_salary.png)
 
-For example: 150,000. 
-
 <br>
 
-### 3. Input your Ethereum account address 
+## 3. Input our Ethereum account address 
 
 ![](./Resources/instruction_input_aacount.png)
 
-## View the results! 
+## 4. View the results! 
 <br>
 
 ### -   Daily portfolio view
@@ -71,16 +87,3 @@ For example: 150,000.
 
 ![](./Resources/instruction_view_results.png)
 
-
-# User Story - John
-
- 
-
-
-> ## “John has two income streams: he earns a $150k p.a. salary as a software engineer at Optiver, and earns income executing hundreds of ethereum trades each financial year. John wants to find a straightforward tool to find out his personal income tax based on Australian Taxation Regulations” 
-
-<br>
-
-### Salary: $ 150,000 
-
-### Crypto transcations: 
