@@ -55,7 +55,7 @@ income = st.number_input("Input Salary")
 
 #Get transactions from the block and calculate daily portfoilio return 
 
-address = st.text_input("Input Account")
+address = st.text_input("Input Ethereum Account Address")
 if st.button('Upload Transactions'):
     st.write(f'Transactions Uploaded from account: {address}') #displayed when the button is clicked
     transactions_df = eth_helper.getTransactionsByAccount(address, w3)
