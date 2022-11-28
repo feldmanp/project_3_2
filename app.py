@@ -80,6 +80,8 @@ if st.button('Upload Transactions'):
 
     st.markdown(f'Effective Tax Rate  is: {round(inc_tax(total_y)/total_y*100)} %')
 
+    st.table(capital_gain_df)
+
 
 ###############################################################
 
