@@ -1,10 +1,13 @@
+# Helper class to calculate the capital gains/losses
+
+# import statements
 import pandas as pd
 from pathlib import Path
 import yfinance as yf
 from datetime import datetime,timedelta
 
 
-
+# Helper function to call yfinance API and convert to AUD (support multipule currencies)
 def get_price(date,currency):
     pair=currency+"-AUD"
     data = yf.download(pair,date,date + timedelta(days=1))
@@ -17,7 +20,6 @@ def calculate_yearly_gains(transactions_df):
     transactions_df["date"]=transactions_df["timestamp"].str[:10]
 
     # Get prices and multiply by amount transacted + fill into table
-
     transactions_df['price'] = 0
     transactions_df['transaction value (AUD)'] = 0
 
@@ -30,7 +32,6 @@ def calculate_yearly_gains(transactions_df):
         transactions_df.loc[index,"transaction value"]=get_price(date,currency)*amount
 
     #Split dataframes
-
     sell_df = transactions_df.loc[transactions_df["amount"]<0]
     buy_df = transactions_df.loc[transactions_df["amount"]>0]
     
@@ -38,7 +39,6 @@ def calculate_yearly_gains(transactions_df):
     tax_events_df = pd.DataFrame(columns=['sell date','return','cost base'])
     
     #Tax Events Cases
-    
     for sell_index, sell_transaction in sell_df.iterrows():
         for buy_index, buy_transaction in buy_df.iterrows():
             if buy_transaction['currency'] == sell_transaction['currency']:
@@ -68,9 +68,8 @@ def calculate_yearly_gains(transactions_df):
                 break 
             
 
-
+        # Calculating the profit/loss 
         tax_events_df['net return']=0
-
         tax_events_df['net return'] = tax_events_df['return']+tax_events_df['cost base']
                                     
         return tax_events_df

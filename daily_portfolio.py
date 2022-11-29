@@ -1,12 +1,18 @@
+# Helper class to build a daily portfolio view
+# This class will be used to create a dataframe where every day will store the AUD value of the holdings
+
+# import statements
 import pandas as pd
 from datetime import datetime,timedelta
 import yfinance as yf
 
+# Helper function to call yfinance API and convert to AUD (support multipule currencies)
 def get_price(date,currency):
     pair=currency+"-AUD"
     data = yf.download(pair,date,date + timedelta(days=1))
     return data.iloc[0,4]
     
+# Helper function to loop through the portfolio holdings on a specifiic date and sum the AUD value
 def calculate_daily_value(date,summary_portfolio_df):
     amount_aud = 0
     for index, row in summary_portfolio_df.iterrows(): 
@@ -15,6 +21,7 @@ def calculate_daily_value(date,summary_portfolio_df):
     
     return amount_aud
 
+# Helper function to keep a track of the portfolio holdings in original currency 
 def update_holdings(current_holdings, new_transactions):
     for index, row in new_transactions.iterrows():
         #parse the row
@@ -32,6 +39,9 @@ def update_holdings(current_holdings, new_transactions):
     #return the updated holdings
     return current_holdings
 
+# The main function which is called from the stremlit app - from a transactions list generate the daily portfolio view
+# The range defined in this function is between the first transaction date to the last transaction date 
+# Including days with no transactions in between
 def calculate_daily_portfolio(transactions_df):
     #1. adjust the dataframe
     transactions_df["date"]=transactions_df["timestamp"].str[:10]
