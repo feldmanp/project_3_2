@@ -1,4 +1,4 @@
-#Import streamlit 
+#Import statements
 import streamlit as st
 import pandas as pd
 from pandas.tseries.offsets import DateOffset
